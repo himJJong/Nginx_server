@@ -1,0 +1,37 @@
+version: '3'
+
+volumes:
+  node_modules: {}
+
+services: 
+  nginx:
+    container_name: nginx-node-lb
+    build: ./nginx
+    links:
+      -  nodejs_1:nodejs_1
+      -  nodejs_2:nodejs_2
+      -  nodejs_3:nodejs_3
+    ports:
+      - "4000:80"
+    depends_on:
+      - nodejs_1
+      - nodejs_2
+      - nodejs_3
+    
+  nodejs_1:
+    image: node-nginx:test
+    ports:
+      - "9700"
+    command: ["npm", "run", "start"]
+      
+  nodejs_2:
+    image: node-nginx:test
+    ports:
+      - "9700"
+    command: ["npm", "run", "start"]
+      
+  nodejs_3:
+    image: node-nginx:test
+    ports:
+      - "9700"
+    command: ["npm", "run", "start"]
